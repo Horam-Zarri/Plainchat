@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --backup-font-stack: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    --dark-color: rgb(0, 0, 0);
+    --dark-color-transparent: #dfdfdf7e;
+    --text-color: rgb(255, 255, 255);
+    --color-1: #fef200;
+    --color-2: #ff0078;
+    --color-3: #0201ff;
+    --color-4: #dfdfdf;
+    --color-5: rgb(55, 255, 45);
+    font-size: 16px;
+}

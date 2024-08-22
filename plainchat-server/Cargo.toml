@@ -1,0 +1,45 @@
+[package]
+name = "plainchat-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+# Async & Web
+tokio = {version = "1.39.3", features = ["full"]}
+axum = {version = "0.7.5"}
+axum-extra = {version = "0.9.3", features = ["typed-header"]}
+axum-macros = "0.4.1"
+tower = "0.4.3"
+tower-http = {version = "0.5.2", features = ["full"]}
+
+# Tracing
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+
+# Error Handling
+thiserror = "1.0.63"
+anyhow = "1.0.86"
+
+# Password Hash
+argon2 = "0.5.3"
+
+# DB
+sqlx = { version = "0.8.0", features = ["runtime-tokio","postgres", "chrono", "uuid"] }
+uuid = {version = "1.10.0", features = ["serde"]}
+chrono = {version = "0.4.38", features = ["serde"]}
+
+# REDIS
+redis = {version = "0.26.1", features = ["aio", "tokio", "streams", "tokio-comp"]}
+# ENV
+dotenv = "0.15.0"
+
+# Json
+serde = { version = "1.0.204", features = ["derive"] }
+serde_json = "1.0.122"
+
+# JWT
+jsonwebtoken = "9.3.0"
+
+# WS 
+socketioxide = {version = "0.14.0", features = ["extensions", "state"]}

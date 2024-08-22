@@ -1,0 +1,87 @@
+services:
+
+  frontend:
+    build: 
+      context: plainchat-client
+    container_name: next-app
+    restart: always
+    volumes:
+      - ./vol/plainchat-client/src:/app/src
+      - ./vol/plainchat-client/public:/app/public 
+    ports: 
+      - "3000:3000"
+    networks:
+      - main-network
+
+  nginx: 
+    build: 
+      context: nginx
+    container_name: nginx 
+    restart: always
+    tty: true
+    ports: 
+      - "80:80"
+    networks:
+      - main-network 
+    depends_on:
+      - frontend
+      - backend
+
+
+  backend: 
+    build:
+      context: plainchat-server 
+    container_name: rust-app 
+    env_file:
+      - ".example.env"
+    tty: true
+    ports:
+      - "5000:5000"
+    volumes: 
+      - ./vol/plainchat-server/app:/app/src
+      - ./vol/plainchat-server/target:/app/target
+    networks: 
+      - main-network
+    depends_on: 
+      - db 
+      - redis
+
+  redis:
+    image: redis:7.4.0
+    container_name: redis
+    restart: always
+    tty: true
+    healthcheck:
+      test: ["CMD-SHELL", "redis cli-ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./vol/redis-data:/root/redis
+      - ./vol/redis-data/conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - main-network
+  
+  db: 
+    image: postgres:16.4
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./vol/data:/var/lib/postgresql/data
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=1234
+    ports: 
+      - "5432:5432"
+    networks: 
+      - main-network
+
+
+networks:
+  main-network: 
+    driver: bridge
+
